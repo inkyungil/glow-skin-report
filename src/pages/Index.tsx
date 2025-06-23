@@ -6,8 +6,9 @@ import { Card, CardContent } from '@/components/ui/card';
 import PhotoUpload from '@/components/PhotoUpload';
 import SkinAnalysis from '@/components/SkinAnalysis';
 import ProductRecommendations from '@/components/ProductRecommendations';
+import SkinChatBot from '@/components/SkinChatBot';
 
-type AppStep = 'welcome' | 'upload' | 'analysis' | 'results';
+type AppStep = 'welcome' | 'upload' | 'analysis' | 'results' | 'chat';
 
 const Index = () => {
   const [currentStep, setCurrentStep] = useState<AppStep>('welcome');
@@ -29,6 +30,14 @@ const Index = () => {
       });
       setCurrentStep('results');
     }, 3000);
+  };
+
+  const handleStartChat = () => {
+    setCurrentStep('chat');
+  };
+
+  const handleBackToResults = () => {
+    setCurrentStep('results');
   };
 
   const renderWelcomeScreen = () => (
@@ -92,7 +101,20 @@ const Index = () => {
       case 'analysis':
         return <SkinAnalysis />;
       case 'results':
-        return <ProductRecommendations analysisData={analysisData} onRestart={() => setCurrentStep('welcome')} />;
+        return (
+          <ProductRecommendations 
+            analysisData={analysisData} 
+            onRestart={() => setCurrentStep('welcome')}
+            onStartChat={handleStartChat}
+          />
+        );
+      case 'chat':
+        return (
+          <SkinChatBot 
+            analysisData={analysisData}
+            onBack={handleBackToResults}
+          />
+        );
       default:
         return renderWelcomeScreen();
     }

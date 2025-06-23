@@ -1,5 +1,4 @@
-
-import { RefreshCw, Award, Droplets, Zap, Shield, Star, Heart, ShoppingBag } from 'lucide-react';
+import { RefreshCw, Award, Droplets, Zap, Shield, Star, Heart, ShoppingBag, MessageCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -8,9 +7,10 @@ import { Progress } from '@/components/ui/progress';
 interface ProductRecommendationsProps {
   analysisData: any;
   onRestart: () => void;
+  onStartChat?: () => void;
 }
 
-const ProductRecommendations = ({ analysisData, onRestart }: ProductRecommendationsProps) => {
+const ProductRecommendations = ({ analysisData, onRestart, onStartChat }: ProductRecommendationsProps) => {
   const skinScores = analysisData?.scores || {};
   const concerns = analysisData?.concerns || [];
 
@@ -122,7 +122,7 @@ const ProductRecommendations = ({ analysisData, onRestart }: ProductRecommendati
                          key === 'pigmentation' ? '색소침착' : key}
                       </span>
                       <span className={`text-sm font-medium ${getScoreColor(score as number)}`}>
-                        {score}/100 ({getScoreLabel(score as number)})
+                        {score as number}/100 ({getScoreLabel(score as number)})
                       </span>
                     </div>
                     <Progress 
@@ -160,14 +160,23 @@ const ProductRecommendations = ({ analysisData, onRestart }: ProductRecommendati
           <div className="lg:col-span-2">
             <div className="flex justify-between items-center mb-6">
               <h2 className="text-2xl font-bold">맞춤 추천 제품</h2>
-              <Button 
-                variant="outline" 
-                onClick={onRestart}
-                className="hover:bg-pink-50"
-              >
-                <RefreshCw className="w-4 h-4 mr-2" />
-                다시 분석하기
-              </Button>
+              <div className="flex gap-2">
+                <Button 
+                  onClick={onStartChat}
+                  className="k-gradient text-white hover:scale-105 transition-transform"
+                >
+                  <MessageCircle className="w-4 h-4 mr-2" />
+                  AI 상담하기
+                </Button>
+                <Button 
+                  variant="outline" 
+                  onClick={onRestart}
+                  className="hover:bg-pink-50"
+                >
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  다시 분석하기
+                </Button>
+              </div>
             </div>
 
             <div className="space-y-4">
