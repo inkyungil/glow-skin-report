@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 import { Send, ArrowLeft, Sparkles, User, Bot } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -139,26 +138,28 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
   return (
     <div className={`min-h-screen ${getSkinTypeBackground()}`}>
       {/* Fixed Header with Analysis Summary */}
-      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-pink-100 p-4">
+      <div className="sticky top-0 z-10 bg-white/90 backdrop-blur-sm border-b border-pink-100 p-3 md:p-4">
         <div className="max-w-4xl mx-auto">
-          <div className="flex items-center justify-between mb-4">
+          <div className="flex items-center justify-between mb-3 md:mb-4">
             <Button 
               variant="ghost" 
               onClick={onBack}
-              className="hover:bg-pink-50"
+              className="hover:bg-pink-50 text-sm md:text-base p-2 md:p-3"
+              size="sm"
             >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              분석 결과로 돌아가기
+              <ArrowLeft className="w-4 h-4 mr-1 md:mr-2" />
+              <span className="hidden sm:inline">분석 결과로 돌아가기</span>
+              <span className="sm:hidden">돌아가기</span>
             </Button>
             <div className="flex items-center">
-              <div className="w-8 h-8 k-gradient rounded-full flex items-center justify-center mr-2 pulse-soft">
-                <Bot className="w-4 h-4 text-white" />
+              <div className="w-6 h-6 md:w-8 md:h-8 k-gradient rounded-full flex items-center justify-center mr-2 pulse-soft">
+                <Bot className="w-3 h-3 md:w-4 md:h-4 text-white" />
               </div>
-              <span className="font-semibold text-gray-700">AI 피부 상담사</span>
+              <span className="font-semibold text-gray-700 text-sm md:text-base">AI 피부 상담사</span>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-3">
             {Object.entries(skinScores).map(([key, score]) => (
               <div key={key} className="text-center">
                 <div className="text-xs text-gray-500 mb-1">
@@ -167,7 +168,7 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
                    key === 'pores' ? '모공' : 
                    key === 'pigmentation' ? '색소침착' : key}
                 </div>
-                <div className={`text-sm font-semibold ${getScoreColor(score as number)}`}>
+                <div className={`text-xs md:text-sm font-semibold ${getScoreColor(score as number)}`}>
                   {score as number}/100
                 </div>
               </div>
@@ -177,27 +178,27 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
       </div>
 
       {/* Chat Messages */}
-      <div className="max-w-4xl mx-auto p-4 pb-32">
-        <div className="space-y-4">
+      <div className="max-w-4xl mx-auto p-3 md:p-4 pb-40 md:pb-32">
+        <div className="space-y-3 md:space-y-4">
           {messages.map((message) => (
             <div
               key={message.id}
               className={`flex ${message.type === 'user' ? 'justify-end' : 'justify-start'} fade-in-up`}
             >
-              <div className={`max-w-xs md:max-w-md lg:max-w-lg ${
+              <div className={`max-w-[85%] sm:max-w-xs md:max-w-md lg:max-w-lg ${
                 message.type === 'user' 
                   ? 'bg-pink-500 text-white' 
                   : 'bg-white shadow-lg border border-pink-100'
-              } rounded-2xl p-4 relative`}>
+              } rounded-2xl p-3 md:p-4 relative`}>
                 {message.type === 'bot' && (
                   <div className="flex items-center mb-2">
-                    <div className="w-6 h-6 k-gradient rounded-full flex items-center justify-center mr-2">
-                      <Sparkles className="w-3 h-3 text-white" />
+                    <div className="w-5 h-5 md:w-6 md:h-6 k-gradient rounded-full flex items-center justify-center mr-2">
+                      <Sparkles className="w-2 h-2 md:w-3 md:h-3 text-white" />
                     </div>
                     <span className="text-xs font-medium text-pink-600">AI 피부 상담사</span>
                   </div>
                 )}
-                <div className={`whitespace-pre-line ${
+                <div className={`whitespace-pre-line text-sm md:text-base ${
                   message.type === 'user' ? 'text-white' : 'text-gray-700'
                 }`}>
                   {message.content}
@@ -216,10 +217,10 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
           
           {isTyping && (
             <div className="flex justify-start fade-in-up">
-              <div className="bg-white shadow-lg border border-pink-100 rounded-2xl p-4">
+              <div className="bg-white shadow-lg border border-pink-100 rounded-2xl p-3 md:p-4">
                 <div className="flex items-center">
-                  <div className="w-6 h-6 k-gradient rounded-full flex items-center justify-center mr-2">
-                    <Sparkles className="w-3 h-3 text-white" />
+                  <div className="w-5 h-5 md:w-6 md:h-6 k-gradient rounded-full flex items-center justify-center mr-2">
+                    <Sparkles className="w-2 h-2 md:w-3 md:h-3 text-white" />
                   </div>
                   <div className="flex space-x-1">
                     <div className="w-2 h-2 bg-pink-400 rounded-full animate-pulse"></div>
@@ -235,10 +236,10 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
       </div>
 
       {/* Fixed Bottom Input */}
-      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-pink-100 p-4">
+      <div className="fixed bottom-0 left-0 right-0 bg-white/95 backdrop-blur-sm border-t border-pink-100 p-3 md:p-4">
         <div className="max-w-4xl mx-auto">
           {/* Suggested Questions */}
-          <div className="mb-4">
+          <div className="mb-3 md:mb-4">
             <div className="flex flex-wrap gap-2 justify-center">
               {suggestedQuestions.map((question, index) => (
                 <Button
@@ -246,7 +247,7 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
                   variant="outline"
                   size="sm"
                   onClick={() => handleSuggestedQuestion(question)}
-                  className="text-xs hover:bg-pink-50 border-pink-200 text-pink-700"
+                  className="text-xs hover:bg-pink-50 border-pink-200 text-pink-700 px-2 md:px-3 py-1 md:py-2"
                 >
                   {question}
                 </Button>
@@ -263,13 +264,14 @@ const SkinChatBot = ({ analysisData, onBack }: SkinChatBotProps) => {
                 onChange={(e) => setInputValue(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage(inputValue)}
                 placeholder="피부 고민이나 궁금한 점을 자유롭게 말씀해 주세요..."
-                className="w-full px-4 py-3 rounded-full border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent pr-12"
+                className="w-full px-3 md:px-4 py-2 md:py-3 rounded-full border border-pink-200 focus:outline-none focus:ring-2 focus:ring-pink-300 focus:border-transparent text-sm md:text-base"
               />
             </div>
             <Button
               onClick={() => sendMessage(inputValue)}
               disabled={!inputValue.trim() || isTyping}
-              className="k-gradient text-white rounded-full px-6 hover:scale-105 transition-transform disabled:opacity-50"
+              className="k-gradient text-white rounded-full px-4 md:px-6 hover:scale-105 transition-transform disabled:opacity-50"
+              size="sm"
             >
               <Send className="w-4 h-4" />
             </Button>
